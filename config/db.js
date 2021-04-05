@@ -9,3 +9,4 @@ mongoose.connect('mongodb+srv://'+process.env.DB_USER_PASSWORD+'@cluster0.2tuw3.
 )
 .then(()=> console.log('Connected to mongoDB'))
 .catch((err)=>console.log('falied to connect to mongoDB',err))
+// majdouch commentaire
