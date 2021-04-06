@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { default: validator } = require('validator');
 const { isEmail } = require('validator');
+const bcrypt = require('bcrypt')
 
 const userSchema = new mongoose.Schema(
     {
@@ -17,6 +18,7 @@ const userSchema = new mongoose.Schema(
             required: true,
             validate: [isEmail],
             lowercase: true,
+            unique: true,
             trim: true,
 
         },
@@ -49,7 +51,14 @@ const userSchema = new mongoose.Schema(
     }
 
 
-)
+);
+
+// play function before save into display function de cryptage de mot pass
+userSchema.pre("save", async function(next){
+    const salt = await bcrypt.genSalt();
+    this.password =await bcrypt.hash(this.password,salt);
+    next();
+})
 const UserModel = mongoose.model('user',userSchema);
 
 module.exports = UserModel;
